@@ -8,9 +8,9 @@
             <div class="row" style="margin-top: 20px">
                 <div class="col-sm-8">
                     <ul class="nav nav-tabs" style="margin-bottom: 20px">
-                        <li role="presentation" class="active"><a href="#">Home</a></li>
-                        <li role="presentation"><a href="#">Profile</a></li>
-                        <li role="presentation"><a href="#">Messages</a></li>
+                        <li role="presentation" class="active"><a href="#">全部</a></li>
+                        <li role="presentation"><a href="#">关注</a></li>
+                        <li v-for="item in labelData" role="presentation"><a href="#">{{item.label_name}}</a></li>
                     </ul>
 
 
@@ -119,10 +119,12 @@
     import carousel from '@/components/carousel'
     import asideInfo from '@/components/asideInfo'
     import footerView from '@/components/footer'
+    import {labelList} from "../api/getData";
+
     export default {
         data(){
             return {
-
+                labelData:[],
             }
         },
 
@@ -132,6 +134,20 @@
             asideInfo,
             footerView,
         },
+
+        created(){
+            this.initData();
+        },
+
+        methods:{
+            async initData(){
+                const res = await labelList();
+                console.log(res);
+                if(res.status == 1){
+                    this.labelData = res.data;
+                }
+            }
+        }
     }
 </script>
 
