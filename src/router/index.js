@@ -5,7 +5,9 @@ import Router from 'vue-router'
 Vue.use(Router);
 
 const Home = r => require.ensure([], () => r(require('@/page/home')), 'Home');
-const Theme = r => require.ensure([], () => r(require('@/page/theme')), 'Theme');
+const About = r => require.ensure([], () => r(require('@/page/about')), 'About');
+const ThemeDetail = r => require.ensure([], () => r(require('@/page/theme/themeDetail')), 'ThemeDetail');
+const ThemeList = r => require.ensure([], () => r(require('@/page/theme/themeList')), 'ThemeList');
 
 const routes = [
     {
@@ -13,8 +15,16 @@ const routes = [
         component: Home,
     },
     {
-        path: '/theme',
-        component: Theme,
+        path: '/about',
+        component: About,
+    },
+    {
+        path: '/themeDetail',
+        component: ThemeDetail,
+    },
+    {
+        path: '/themeList',
+        component: ThemeList,
     },
 ]
 

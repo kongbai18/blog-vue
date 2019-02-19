@@ -1,11 +1,11 @@
 <template>
-    <div>
+    <div id="box">
         <top-nav></top-nav>
-        <div class="container" style="margin-top: 75px">
+        <div class="container" style="padding-top: 75px;">
             <div class="row" style="margin-top: 20px">
                 <div class="col-sm-8 col-xs-12">
 
-                    <img style="width: 100%;height: 200px;" src="https://zhangjia.tv/wp-content/themes/LightSNS_1.5_beta_193.2/images/default-cover.jpg" alt="">
+                    <img style="width: 100%;height: 200px;" src="http://pic.shimentown.com/047da95597f822ae5259eb928eb9de3a.jpg" alt="">
                     <div style="width: 100%;height: 60px;">
                         <div style="float: left;">
                             <span style="height: 60px;line-height: 60px;font-size: 22px;font-weight: 700">#编程#</span>
@@ -113,12 +113,14 @@
                 <aside-info></aside-info>
             </div>
         </div>
+        <footer-view></footer-view>
     </div>
 </template>
 
 <script>
     import topNav from '@/components/topNav'
     import asideInfo from '@/components/asideInfo'
+    import footerView from '@/components/footer'
     export default {
         data(){
             return {
@@ -126,9 +128,16 @@
             }
         },
 
+        watch: {
+            '$route' (to, from) {
+                this.$router.go(0);
+            }
+        },
+
         components: {
             topNav,
             asideInfo,
+            footerView,
         },
     }
 </script>
@@ -142,6 +151,11 @@
         line-height: 25px;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+    }
+    #box{
+        min-height: 100%;
+        position: relative;
+        padding-bottom: 70px;
     }
     .panel-body{
         text-align: left;

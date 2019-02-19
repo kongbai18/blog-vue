@@ -1,6 +1,6 @@
 <template>
-    <div class="footer-info">
-        <div class="container" style="margin-top: 75px">
+    <div class="footer-info" >
+        <div class="container">
             <div class="row">
                 <div class="col-sm-12">
                     <span style="text-indent: 0em; color: rgb(127, 127, 127);">CopyRight 2018-2019 李钢博客 | 赣ICP备18010590号-1 </span>
@@ -32,10 +32,15 @@
 </script>
 
 <style scoped>
+
 .footer-info{
-    line-height: 50px;
     font-size: 16px;
-    background: #f3f3f3;
+    line-height: 50px;
+    background: #f8f8f8;
+    border-top: 1px solid #e7e7e7;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 .container{
 
