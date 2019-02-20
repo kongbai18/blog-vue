@@ -14,7 +14,7 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
     if(window.fetch){
         let requestConfig = {
             credentials: 'include',
-            method: type,
+            method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
@@ -25,7 +25,6 @@ export default async(url = '', data = {}, type = 'GET', method = 'fetch') => {
         try {
             const response = await fetch(baseUrl+'/index/v1/time', requestConfig);
             const responseJson = await response.json();
-            console.log(responseJson);
             if(responseJson.status == 1){
                 timestamp = responseJson.data.time;
                 str = responseJson.data.str;

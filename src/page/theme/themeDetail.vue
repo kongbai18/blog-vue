@@ -6,7 +6,7 @@
                 <div class="col-sm-8 col-xs-12">
 
                     <img style="width: 100%;height: 200px;" src="http://pic.shimentown.com/047da95597f822ae5259eb928eb9de3a.jpg" alt="">
-                    <div style="width: 100%;height: 60px;">
+                    <div style="width: 100%;height: 60px;background: white;padding: 0 15px;margin-bottom: 20px">
                         <div style="float: left;">
                             <span style="height: 60px;line-height: 60px;font-size: 22px;font-weight: 700">#编程#</span>
                             <button class="btn btn-success" style="margin-left: 10px;margin-top: -8px;">+关注</button>
