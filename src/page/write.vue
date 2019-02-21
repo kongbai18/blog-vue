@@ -1,7 +1,7 @@
 <template>
     <div id="box">
         <input type="email" class="form-control" v-model="tittle"  placeholder="文章标题" style="height: 80px;">
-        <mavon-editor ref="md" class="mv-editor" v-model="value" @save="addSub" @imgAdd="imgAdd" @imgDel="imgDel" :ishljs = "true"/>
+        <mavon-editor ref="md" class="mv-editor" v-model="value" @save="addSub" @imgAdd="imgAdd" :ishljs = "true"/>
     </div>
 </template>
 
@@ -14,6 +14,7 @@
                 value:'',
                 tittle:'',
                 themeId:0,
+                upImg:[],
             }
         },
 
@@ -36,12 +37,11 @@
                 var formdata = {'image':$file};
                 const res = await upImg(formdata);
                 if(res.status == 1){
+                    this.upImg.push(res.data.image_url);
                     this.$refs.md.$img2Url(pos, res.data.image_url);
+                }else{
+                    this.$refs.md.$img2Url(pos,'');
                 }
-            },
-
-            imgDel(pos){
-                console.log(pos);
             },
 
             async addSub(val,ren){
@@ -52,7 +52,7 @@
                     return false;
                 }
 
-                const res = await addArticle({'article_tittle':this.tittle,'article_content':ren});
+                const res = await addArticle({'article_tittle':this.tittle,'article_content':ren,'image':this.upImg});
                 console.log(res);
             },
 
