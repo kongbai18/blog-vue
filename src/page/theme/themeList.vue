@@ -256,5 +256,14 @@
         font-size: 16px;
         font-weight: 300;
         line-height: 25px;
+    }.record-content-num{
+        font-size: 12px;
+        font-weight: 300;
+        line-height: 25px;
+    }
+    .record-content-tittle{
+        font-size: 16px;
+        font-weight: 300;
+        line-height: 25px;
     }
 </style>

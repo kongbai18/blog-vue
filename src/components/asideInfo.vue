@@ -35,15 +35,15 @@
                          <div class="record-list">
                              <div class="record-list-num">548</div>
                              <div class="record-list-tittle">喜欢</div>
-                         </div><div class="record-list">
-                         <div class="record-list-num">548</div>
-                         <div class="record-list-tittle">内容</div>
-                     </div>
+                         </div>
+                         <div class="record-list">
+                             <div class="record-list-num">548</div>
+                             <div class="record-list-tittle">内容</div>
+                         </div>
                      </div>
                  </div>
                 <img class="img-responsive login-user-img" :src="user.userUrl" >
             </div>
-
         </div>
 
 

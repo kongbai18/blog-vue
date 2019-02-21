@@ -33,7 +33,7 @@
                              {{user.userName}} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li style="height: 50px;text-align: center;border-bottom: 1px solid #ccc;margin: 0 10px"><a style="line-height: 45px;" href="javascript:;">我的主页</a></li>
+                            <li style="height: 50px;text-align: center;border-bottom: 1px solid #ccc;margin: 0 10px"><a @click="goPersonal" style="line-height: 45px;" href="javascript:;">我的主页</a></li>
                             <li style="height: 50px;text-align: center;border-bottom: 1px solid #ccc;margin: 0 10px"><a style="line-height: 45px;" href="javascript:;">修改密码</a></li>
                             <li style="height: 50px;text-align: center;margin: 0 10px"><a @click="logoutSub" style="line-height: 45px;" href="javascript:;">退出登陆</a></li>
                         </ul>
@@ -42,7 +42,7 @@
             </div>
 
             <div v-if="user.logStatus" class="navbar-header navbar-right" style="height: 50px;">
-                <img style="width: 40px;height: 40px;border-radius: 20px;margin-top: 5px" alt="Brand" :src="user.userUrl" class="img-responsive">
+                <img style="width: 40px;height: 40px;border-radius: 20px;margin-top: 5px" :src="user.userUrl" class="img-responsive">
             </div>
 
             <form class="navbar-form navbar-right" role="search">
@@ -363,6 +363,10 @@
                 if(res.status == 1){
                     localStorage.setItem('loginStorage',false);
                 }
+            },
+
+            goPersonal(){
+                this.$router.push({path:'/personal'})
             }
         }
     }

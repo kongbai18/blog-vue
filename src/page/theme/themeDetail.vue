@@ -8,9 +8,9 @@
                     <img style="width: 100%;height: 200px;" src="http://pic.shimentown.com/047da95597f822ae5259eb928eb9de3a.jpg" alt="">
                     <div style="width: 100%;height: 60px;background: white;padding: 0 15px;margin-bottom: 20px">
                         <div style="float: left;">
-                            <span style="height: 60px;line-height: 60px;font-size: 22px;font-weight: 700">#编程#</span>
+                            <span style="height: 60px;line-height: 60px;font-size: 24px;font-weight: 550"># {{cateInfo.cate_name}} #</span>
                             <button class="btn btn-success" style="margin-left: 10px;margin-top: -8px;">+关注</button>
-                            <button class="btn btn-info" style="margin-left: 10px;margin-top: -8px;">参与话题</button>
+                            <button @click="goWrite" class="btn btn-info" style="margin-left: 10px;margin-top: -8px;">参与话题</button>
                         </div>
                         <div style="float: right;height: 60px;line-height: 80px;font-size: 10px;">
                             <span>786浏览</span>
@@ -121,10 +121,13 @@
     import topNav from '@/components/topNav'
     import asideInfo from '@/components/asideInfo'
     import footerView from '@/components/footer'
+    import {cateInfo} from "../../api/getData";
+
     export default {
         data(){
             return {
-
+                themeId:'',
+                cateInfo:{},
             }
         },
 
@@ -139,6 +142,43 @@
             asideInfo,
             footerView,
         },
+
+        mounted(){
+            this.initData();
+        },
+
+        methods:{
+            async initData(){
+                var routerParams = this.$route.query;
+
+                if(routerParams.navId){
+                    this.themeId = routerParams.navId;
+                }else{
+                    this.$router.push({path:'/'});
+                }
+
+                this.getCateInfo();
+            },
+
+            async getCateInfo(){
+                const res = await cateInfo(this.themeId);
+                console.log(res);
+                if(res.status == 1){
+                    this.cateInfo = res.data;
+                }
+            },
+
+            goWrite(){
+                const {href} = this.$router.resolve({
+                    path: "/write",
+                    query: {
+                        themeId:this.cateInfo.cate_id,
+                    }
+                });
+                window.open(href, '_blank');
+            }
+        }
+
     }
 </script>
 

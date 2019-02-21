@@ -11,6 +11,11 @@ export const navTwoStage = () => fetch('/index/v1/category');
 export const labelList = () => fetch('/index/v1/label');
 
 /*
+*上传图片
+*/
+export const upImg = data => fetch('/index/v1/upimage',data,'POST');
+
+/*
 *登陆
 */
 export const login = data => fetch('/index/v1/login',data,'POST');
@@ -34,3 +39,18 @@ export const register = data => fetch('/index/v1/register',data,'POST');
 *获取用户信息
 */
 export const userInfo = () => fetch('/index/v1/user');
+
+/*
+*获取单个分类信息
+*/
+export const cateInfo = id => fetch('/index/v1/category/'+id);
+
+/*
+*发布文章
+*/
+export const addArticle = data => fetch('/index/v1/article',data,'POST');
+
+/*
+*获取文章列表
+*/
+export const articleList = data => fetch('/index/v1/article',data);
