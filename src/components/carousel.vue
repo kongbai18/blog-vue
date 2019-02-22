@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-sm-12">
-            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 400px;width: 100%;overflow: hidden">
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" style="height: 300px;width: 100%;overflow: hidden">
                 <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0"></li>
                     <li data-target="#myCarousel" data-slide-to="1"></li>

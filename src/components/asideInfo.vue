@@ -2,17 +2,19 @@
     <div class="col-sm-4 hidden-xs">
         <div v-if="!user.logStatus" class="panel panel-default">
             <div class="panel-body" >
-                <div class="input-group" style="height: 40px;margin-top: 10px">
-                    <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-                    <input style="height: 40px"  type="text" class="form-control" placeholder="手机/邮箱/用户名" aria-describedby="basic-addon1">
-                </div>
-                <div class="input-group" style="margin-top: 15px;height: 40px">
-                    <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
-                    <input style="height: 40px" type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
-                </div>
+                <form :model="loginForm">
+                    <div class="input-group" style="height: 40px;margin-top: 10px">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
+                        <input v-model="loginForm.user_name" style="height: 40px"  type="text" class="form-control" placeholder="手机/邮箱/用户名" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group" style="margin-top: 15px;height: 40px">
+                        <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
+                        <input v-model="loginForm.user_password" style="height: 40px" type="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+                    </div>
+                </form>
                 <div style="margin-top:25px;width: 100%;">
                     <div style="position:absolute;width: 40px;height: 40px;background: white;left:calc(50% - 20px);border-radius: 20px;box-sizing: border-box;border: 1px solid #f3f3f3;font-size: 24px;padding-left: 12px;padding-top: 2px;color: gray">?</div>
-                    <div class="btn btn-success" style="overflow:hidden;box-sizing:border-box;margin-right:1%;height:40px;padding-top:10px;width: 49%;">登录</div><!--
+                    <button @click="loginSub" class="btn btn-success" style="overflow:hidden;box-sizing:border-box;margin-right:1%;height:40px;padding-top:10px;width: 49%;">登录</button><!--
                           --><div class="btn btn-warning" data-toggle="modal" data-target=".register-modal-sm" style="overflow:hidden;box-sizing:border-box;margin-left:1%;height:40px;padding-top:10px;width: 49%;">注册</div>
                 </div>
             </div>
@@ -75,10 +77,15 @@
 </template>
 
 <script>
+    import {login} from "../api/getData";
+
     export default {
         data(){
             return {
-
+                loginForm:{
+                    user_name:'',
+                    user_password:'',
+                },
             }
         },
 
@@ -87,6 +94,35 @@
                 return this.$store.state.user;
             }
         },
+
+        methods:{
+            async loginSub(){
+                let data = this.loginForm;
+                if(!data.user_name){
+                    return false;
+                }
+                if(!data.user_password){
+                    return false;
+                }
+                const res = await login(data);
+                if(res.status == 1){
+                    this.loginForm.user_password = '';
+                    localStorage.setItem('loginStorage', true);
+                    $('.login-modal-sm').modal('hide');
+                    let user = {
+                        logStatus:true,
+                        userName:res.data.user_name,
+                        userUrl:res.data.user_url,
+                    };
+                    this.$store.dispatch('changeStatus',user);
+                    this.$store.dispatch('changePonit',{showStatus:true,pointMsg:'登陆成功！'});
+                    let _this = this;
+                    window.setTimeout(function(){
+                        _this.$store.dispatch('changePonit',{showStatus:false,pointMsg:'登陆成功！'});
+                    },2000);
+                }
+            },
+        }
     }
 </script>
 

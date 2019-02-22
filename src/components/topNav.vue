@@ -131,6 +131,10 @@
                 </div>
             </div>
         </div>
+
+        <div v-if="pointMsg.showStatus" class="point-box" :style="{top:fullHeight+'px'}">
+            <div class="point-message">{{pointMsg.pointMsg}}</div>
+        </div>
     </nav>
 
 </template>
@@ -147,6 +151,7 @@
                 showGetCode:true,
                 getSms:false,
                 warningStr:'警告错误！',
+                fullHeight: 200,
                 loginForm:{
                     user_name:'',
                     user_password:'',
@@ -164,13 +169,22 @@
             user () {
                 return this.$store.state.user;
             },
+            pointMsg () {
+                return this.$store.state.pointMessage;
+            },
             tipMessage(){
                 return this.$store.state.tipMessage;
-            }
+            },
+
         },
+
 
         mounted(){
             this.initData();
+            let _this = this;
+            setInterval(function () {
+                _this.getFullHeight();
+            },3000)
         },
 
         methods:{
@@ -186,6 +200,10 @@
                 if(routerParams.navId){
                     this.navId = routerParams.navId;
                 }
+            },
+
+            getFullHeight(){
+                this.fullHeight = (document.documentElement.clientHeight-100)/2;
             },
 
             goToTheme(cateId){
@@ -221,6 +239,7 @@
                 }
                 const res = await login(data);
                 if(res.status == 1){
+                    this.loginForm.user_password = '';
                     localStorage.setItem('loginStorage', true);
                     $('.login-modal-sm').modal('hide');
                     let user = {
@@ -229,6 +248,11 @@
                         userUrl:res.data.user_url,
                     };
                     this.$store.dispatch('changeStatus',user);
+                    this.$store.dispatch('changePonit',{showStatus:true,pointMsg:'登陆成功！'});
+                    let _this = this;
+                    window.setTimeout(function(){
+                        _this.$store.dispatch('changePonit',{showStatus:false,pointMsg:'登陆成功！'});
+                    },2000);
                 }
             },
 
@@ -362,6 +386,13 @@
                 const res = await logout();
                 if(res.status == 1){
                     localStorage.setItem('loginStorage',false);
+                    this.$store.dispatch('changePonit',{showStatus:true,pointMsg:'退出成功！'});
+                    let _this = this;
+                    window.setTimeout(function(){
+                        _this.$store.dispatch('changePonit',{showStatus:false,pointMsg:'退出成功！'});
+                    },2000);
+                    console.log('456');
+                    this.$router.push({path:'/'});
                 }
             },
 
@@ -384,5 +415,20 @@
         background: white;
         border-radius: 5px;
         margin-top: 200px;
+    }
+    .point-box{
+        position: absolute;
+        width: 100%;
+        height: 60px;
+    }
+    .point-message{
+        background: #666666;
+        opacity: 0.8;
+        display: inline-block;
+        height: 60px;
+        line-height: 60px;
+        border-radius: 3px;
+        padding: 0 10px;
+        color: white;
     }
 </style>

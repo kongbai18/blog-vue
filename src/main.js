@@ -16,6 +16,36 @@ Vue.filter('htmlToStr', function (value) {
     return value.replace(/<.*?>/g,"");
 })
 
+/*Vue.filter('strSplit', function (value) {
+    return value.split(",");
+})*/
+
+Vue.filter('setTime', function (value) {
+    value = value*1000;
+    var currentDate=new Date();
+    var currentYear=currentDate.getFullYear();
+
+    var actualDate = new Date(value);
+    var actualYear=actualDate.getFullYear();
+    var actualMonth = (actualDate.getMonth() + 1 < 10 ? '0' + (actualDate.getMonth() + 1) : actualDate.getMonth() + 1);
+    var actualDay = actualDate.getDate() < 10 ? '0'+actualDate.getDate() : actualDate.getDate();
+    var actualHours = actualDate.getHours() < 10 ? '0'+actualDate.getHours() : actualDate.getHours();
+    var actualMinute = actualDate.getMinutes() < 10 ? '0'+actualDate.getMinutes() : actualDate.getMinutes();
+
+    if(currentYear === actualYear){
+       if(new Date(value).toDateString() === new Date().toDateString()){
+           //今天
+           return '今天 '+actualHours+':'+actualMinute;
+       }else{
+           //今年但不是今天
+           return actualMonth+'月'+actualDay+'日'+' '+actualHours+':'+actualMinute;
+       }
+    }else{
+       //今年之前
+        return actualYear+'-'+actualMonth+'-'+actualDay+'-'+' '+actualHours+':'+actualMinute;
+    }
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

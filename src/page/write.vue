@@ -52,7 +52,7 @@
                     return false;
                 }
 
-                const res = await addArticle({'article_tittle':this.tittle,'article_content':ren,'image':this.upImg});
+                const res = await addArticle({article_tittle:this.tittle,article_cate_id:this.themeId,article_content:ren,image:this.upImg});
                 console.log(res);
             },
 

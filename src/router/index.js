@@ -5,6 +5,7 @@ import Router from 'vue-router'
 Vue.use(Router);
 
 const Home = r => require.ensure([], () => r(require('@/page/home')), 'Home');
+const Article = r => require.ensure([], () => r(require('@/page/article')), 'Article');
 const About = r => require.ensure([], () => r(require('@/page/about')), 'About');
 const Write = r => require.ensure([], () => r(require('@/page/write')), 'Write');
 const Personal = r => require.ensure([], () => r(require('@/page/personal')), 'Personal');
@@ -15,6 +16,10 @@ const routes = [
     {
         path: '/',
         component: Home,
+    },
+    {
+        path: '/article',
+        component: Article,
     },
     {
         path: '/about',

@@ -21,7 +21,7 @@ export const upImg = data => fetch('/index/v1/upimage',data,'POST');
 export const login = data => fetch('/index/v1/login',data,'POST');
 
 /*
-*登陆
+*退出
 */
 export const logout = () => fetch('/index/v1/logout',[],'POST');
 
@@ -54,3 +54,13 @@ export const addArticle = data => fetch('/index/v1/article',data,'POST');
 *获取文章列表
 */
 export const articleList = data => fetch('/index/v1/article',data);
+
+/*
+*获取用户文章列表
+*/
+export const personalArticle = data => fetch('/index/v1/personalarticle',data,'POST');
+
+/*
+*获取单篇文章
+*/
+export const articleInfo = id => fetch('/index/v1/article/'+id);
