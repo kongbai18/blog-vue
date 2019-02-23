@@ -14,7 +14,8 @@
                                 <div style="height: 35px;line-height: 35px;">{{articleInfo.create_time | setTime}}</div>
                             </div>
                             <h3>{{articleInfo.article_tittle}}</h3>
-                            <div style="overflow: hidden" v-html="articleInfo.article_content"></div>
+                            <div class="content" v-html="articleInfo.article_content"></div>
+                            
                             <div style="height: 40px;border-bottom: 1px solid #ccc">
                                 <ul class="nav nav-pills">
                                     <li role="presentation"><a href="#"><span class="glyphicon glyphicon-heart-empty"></span> 1</a></li>
@@ -84,7 +85,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     #box{
         min-height: 100%;
         position: relative;
@@ -92,5 +93,8 @@
     }
     .panel-body{
         text-align: left;
+    }
+    .content img{
+        max-width: 100%;
     }
 </style>

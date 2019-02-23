@@ -60,6 +60,7 @@
             </div>
         </div>
         <footer-view></footer-view>
+
     </div>
 </template>
 
@@ -90,7 +91,7 @@
             footerView,
         },
 
-        created(){
+        mounted(){
             this.initData();
         },
 
@@ -118,7 +119,7 @@
                     this.articleData = this.articleData.concat(article.data.article);
                     this.pageData = article.data.pageData;
                 }
-            }
+            },
         }
     }
 </script>
@@ -152,4 +153,5 @@
     .router-link-active {
         text-decoration: none;
     }
+
 </style>

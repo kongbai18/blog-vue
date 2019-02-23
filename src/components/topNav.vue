@@ -135,6 +135,11 @@
         <div v-if="pointMsg.showStatus" class="point-box" :style="{top:fullHeight+'px'}">
             <div class="point-message">{{pointMsg.pointMsg}}</div>
         </div>
+
+        <button v-if="showGoTop" @click="goTop" type="button" class="btn btn-default go-top" aria-label="Left Align">
+            <div class="go-top-tag"><span class="glyphicon glyphicon-chevron-up"></span></div>
+            <div class="go-top-msg">返回顶部</div>
+        </button>
     </nav>
 
 </template>
@@ -145,6 +150,7 @@
     export default {
         data(){
             return {
+                showGoTop:false,
                 navData:[],
                 navId:0,
                 cutDown:90,
@@ -181,6 +187,8 @@
 
         mounted(){
             this.initData();
+            this.goTop();
+            window.addEventListener('scroll', this.handleScroll);
             let _this = this;
             setInterval(function () {
                 _this.getFullHeight();
@@ -200,6 +208,21 @@
                 if(routerParams.navId){
                     this.navId = routerParams.navId;
                 }
+            },
+
+            handleScroll () {
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+                console.log(scrollTop);
+                if(scrollTop > 1200){
+                    this.showGoTop = true;
+                }else{
+                    this.showGoTop = false;
+                }
+            },
+
+            goTop(){
+                document.body.scrollTop = 0
+                document.documentElement.scrollTop = 0
             },
 
             getFullHeight(){
@@ -430,5 +453,23 @@
         border-radius: 3px;
         padding: 0 10px;
         color: white;
+    }
+    .go-top{
+        position: fixed;
+        bottom: 50px;
+        right: 20px;
+        width: 55px;
+        padding: 0 2px;
+        margin: 0;
+    }
+    .go-top-tag{
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+    }
+    .go-top-msg{
+        width: 100%;
+        height: 25px;
+        font-size: 8px;
     }
 </style>
