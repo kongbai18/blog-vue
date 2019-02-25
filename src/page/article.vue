@@ -18,10 +18,9 @@
                             
                             <div style="height: 40px;border-bottom: 1px solid #ccc">
                                 <ul class="nav nav-pills">
-                                    <li role="presentation"><a href="#"><span class="glyphicon glyphicon-heart-empty"></span> 1</a></li>
-                                    <li role="presentation"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> 0</a></li>
-                                    <li role="presentation"><a href="#"><span class="glyphicon glyphicon-share" aria-hidden="true"></span> 0</a></li>
-                                    <li role="presentation"><a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> 0</a></li>
+                                    <li role="presentation"><a href="javascript:;"><span class="glyphicon glyphicon-heart-empty"></span> {{articleInfo.article_like_count}}</a></li>
+                                    <li role="presentation"><a href="javascript:;"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> {{articleInfo.article_comment_count}}</a></li>
+                                    <li role="presentation"><a href="javascript:;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{articleInfo.article_view_count}}</a></li>
                                 </ul>
                             </div>
                         </div>

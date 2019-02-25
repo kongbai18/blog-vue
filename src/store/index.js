@@ -10,6 +10,8 @@ const state={
             showStatus:false,
             pointMsg:''
         },
+        userLike:[],
+        userCate:[],
         tipMessage:'',
     };
 const getters = {   //实时监听state值的变化(最新状态)
@@ -24,6 +26,12 @@ const mutations = {
     changePonit(state,data){ //同上，这里面的参数除了state之外还传了需要增加的值sum
         state.pointMessage = data;
     },
+    changeUserLike(state,data){ //同上，这里面的参数除了state之外还传了需要增加的值sum
+        state.userLike = data;
+    },
+    changeUserCate(state,data){ //同上，这里面的参数除了state之外还传了需要增加的值sum
+        state.userCate = data;
+    },
     changeTipMessage(state,str){ //同上，这里面的参数除了state之外还传了需要增加的值sum
         state.tipMessage = str;
     },
@@ -32,8 +40,14 @@ const actions = {
     changeStatus(context,data){   //同上注释，num为要变化的形参
         context.commit('changeStatus',data)
     },
+    changeUserLike(context,data){   //同上注释，num为要变化的形参
+        context.commit('changeUserLike',data)
+    },
     changePonit(context,data){   //同上注释，num为要变化的形参
         context.commit('changePonit',data)
+    },
+    changeUserCate(context,data){   //同上注释，num为要变化的形参
+        context.commit('changeUserCate',data)
     },
     changeTipMessage(context,str){   //同上注释，num为要变化的形参
         context.commit('changeTipMessage',str)

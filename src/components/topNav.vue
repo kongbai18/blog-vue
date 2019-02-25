@@ -1,6 +1,7 @@
 <template>
+    <div>
     <nav class="navbar navbar-default navbar-fixed-top hidden-xs">
-        <div class="container-fluid ">
+        <div class="container-fluid">
             <div class="navbar-header">
                 <a href="javascript:;" @click="goToTheme(0)"><img alt="Brand" src="/static/img/logo.png" class="img-responsive" style="margin-top: 5px"></a>
             </div>
@@ -21,7 +22,6 @@
 
             </ul>
 
-
             <button v-if="!user.logStatus" type="button" class="btn btn-warning navbar-btn navbar-right" data-toggle="modal" data-target=".register-modal-sm">注册</button>
 
             <button v-if="!user.logStatus" type="button" class="btn btn-success navbar-btn navbar-right" style="margin-right: 15px;" data-toggle="modal" data-target=".login-modal-sm">登陆</button>
@@ -30,7 +30,7 @@
                 <ul class="nav navbar-nav">
                     <li>
                         <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;" role="button" aria-haspopup="true" aria-expanded="true">
-                             {{user.userName}} <span class="caret"></span>
+                             {{user.user_name}} <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li style="height: 50px;text-align: center;border-bottom: 1px solid #ccc;margin: 0 10px"><a @click="goPersonal" style="line-height: 45px;" href="javascript:;">我的主页</a></li>
@@ -42,7 +42,7 @@
             </div>
 
             <div v-if="user.logStatus" class="navbar-header navbar-right" style="height: 50px;">
-                <img style="width: 40px;height: 40px;border-radius: 20px;margin-top: 5px" :src="user.userUrl" class="img-responsive">
+                <img style="width: 40px;height: 40px;border-radius: 20px;margin-top: 5px" :src="user.user_photo_url" class="img-responsive">
             </div>
 
             <form class="navbar-form navbar-right" role="search">
@@ -142,6 +142,47 @@
         </button>
     </nav>
 
+    <nav class="navbar navbar-default navbar-fixed-top visible-xs" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
+                <span class="sr-only">展开导航</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:;" @click="goToTheme(0)"><img alt="Brand" src="/static/img/logo.png" class="img-responsive" style="margin-top: -10px"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="nav navbar-nav">
+                <li :class="{active:navId == 0}"><a href="javascript:;" @click="goToTheme(0)">首页</a></li>
+                <li v-for="item in navData" :class="{active:navId == item.cate_id}">
+                    <a href="javascript:;" @click="goToTheme(item.cate_id)">{{item.cate_name}}</a>
+                </li>
+                <li :class="{active:navId == -2}"><a href="javascript:;" @click="goToTheme(-2)">关于</a></li>
+                <li v-if="!user.logStatus"><a href="javascript:;" @click="goLogin">登陆</a></li>
+                <li v-if="user.logStatus"><a href="javascript:;" @click="logoutSub">退出</a></li>
+                <li :class="{active:navId == -1}"><a href="javascript:;" @click="goToTheme(-1)">更多</a></li>
+                <!--<li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">下拉菜单 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">下拉菜单1</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">下拉菜单2</a></li>
+                        <li class="divider"></li>
+                    </ul>
+                </li>-->
+            </ul>
+        </div>
+
+        <div v-if="pointMsg.showStatus" class="point-box" :style="{top:fullHeight+'px'}">
+            <div class="point-message">{{pointMsg.pointMsg}}</div>
+        </div>
+
+        <button v-if="showGoTop" @click="goTop" type="button" class="btn btn-default go-top" aria-label="Left Align">
+            <div class="go-top-tag"><span class="glyphicon glyphicon-chevron-up"></span></div>
+            <div class="go-top-msg">返回顶部</div>
+        </button>
+    </nav>
+</div>
 </template>
 
 <script>
@@ -198,13 +239,11 @@
         methods:{
             async initData(){
                 const res = await navTwoStage();
-                console.log(res);
                 if(res.status == 1){
                     this.navData = res.data;
                 }
 
                 var routerParams = this.$route.query;
-                console.log(routerParams);
                 if(routerParams.navId){
                     this.navId = routerParams.navId;
                 }
@@ -212,7 +251,6 @@
 
             handleScroll () {
                 var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-                console.log(scrollTop);
                 if(scrollTop > 1200){
                     this.showGoTop = true;
                 }else{
@@ -265,12 +303,6 @@
                     this.loginForm.user_password = '';
                     localStorage.setItem('loginStorage', true);
                     $('.login-modal-sm').modal('hide');
-                    let user = {
-                        logStatus:true,
-                        userName:res.data.user_name,
-                        userUrl:res.data.user_url,
-                    };
-                    this.$store.dispatch('changeStatus',user);
                     this.$store.dispatch('changePonit',{showStatus:true,pointMsg:'登陆成功！'});
                     let _this = this;
                     window.setTimeout(function(){
@@ -414,13 +446,16 @@
                     window.setTimeout(function(){
                         _this.$store.dispatch('changePonit',{showStatus:false,pointMsg:'退出成功！'});
                     },2000);
-                    console.log('456');
                     this.$router.push({path:'/'});
                 }
             },
 
             goPersonal(){
                 this.$router.push({path:'/personal'})
+            },
+
+            goLogin(){
+
             }
         }
     }
@@ -456,7 +491,7 @@
     }
     .go-top{
         position: fixed;
-        bottom: 50px;
+        bottom: 150px;
         right: 20px;
         width: 55px;
         padding: 0 2px;

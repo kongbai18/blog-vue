@@ -16,9 +16,13 @@ Vue.filter('htmlToStr', function (value) {
     return value.replace(/<.*?>/g,"");
 })
 
-/*Vue.filter('strSplit', function (value) {
-    return value.split(",");
-})*/
+Vue.filter('isInArray', function (arr1,arr2) {
+    if(arr2.indexof(arr1) == -1){
+        return false;
+    }else {
+        return true;
+    }
+})
 
 Vue.filter('setTime', function (value) {
     value = value*1000;

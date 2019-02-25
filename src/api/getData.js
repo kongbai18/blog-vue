@@ -3,7 +3,7 @@ import fetch from '@/config/fetch'
 /*
 *获取两级导航列表
 */
-export const navTwoStage = () => fetch('/index/v1/category');
+export const navTwoStage = () => fetch('/index/v1/gettwostage',{},'POST');
 
 /*
 *获取标签列表
@@ -41,6 +41,11 @@ export const register = data => fetch('/index/v1/register',data,'POST');
 export const userInfo = () => fetch('/index/v1/user');
 
 /*
+*获取分类信息
+*/
+export const cateList = () => fetch('/index/v1/category');
+
+/*
 *获取单个分类信息
 */
 export const cateInfo = id => fetch('/index/v1/category/'+id);
@@ -64,3 +69,23 @@ export const personalArticle = data => fetch('/index/v1/personalarticle',data,'P
 *获取单篇文章
 */
 export const articleInfo = id => fetch('/index/v1/article/'+id);
+
+/*
+*点赞
+*/
+export const like = data => fetch('/index/v1/userarticle',data,'POST');
+
+/*
+*取消点赞
+*/
+export const dislike = data => fetch('/index/v1/userarticle/1',data,'DELETE');
+
+/*
+*关注话题
+*/
+export const concernTheme = data => fetch('/index/v1/usercate',data,'POST');
+
+/*
+*取消关注话题
+*/
+export const disConcernTheme = data => fetch('/index/v1/usercate/1',data,'DELETE');

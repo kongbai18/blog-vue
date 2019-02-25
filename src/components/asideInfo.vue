@@ -24,27 +24,27 @@
             <div class="panel-body" style="margin: 0;padding: 0;">
                  <img style="width: 100%;height: 100px;" src="https://zhangjia.tv/wp-content/themes/LightSNS_1.5_beta_198.7/images/member_bg/small/04.jpg" class="img-responsive">
                  <div style="width: 100%;height: 190px;text-align: center;padding-top: 50px">
-                     <div style="font-size: 18px;font-weight: 600">{{user.userName}}</div>
+                     <div style="font-size: 18px;font-weight: 600">{{user.user_name}}</div>
                      <div style="width: 100%;height:120px;padding-top: 35px;font-size: 0;">
                          <div class="record-list">
-                             <div class="record-list-num">548</div>
+                             <div class="record-list-num">{{user.concern_count}}</div>
                              <div class="record-list-tittle">关注</div>
                          </div>
                          <div class="record-list">
-                             <div class="record-list-num">548</div>
+                             <div class="record-list-num">{{user.fans_count}}</div>
                              <div class="record-list-tittle">粉丝</div>
                          </div>
                          <div class="record-list">
-                             <div class="record-list-num">548</div>
+                             <div class="record-list-num">{{user.like_count}}</div>
                              <div class="record-list-tittle">喜欢</div>
                          </div>
                          <div class="record-list">
-                             <div class="record-list-num">548</div>
+                             <div class="record-list-num">{{user.content_count}}</div>
                              <div class="record-list-tittle">内容</div>
                          </div>
                      </div>
                  </div>
-                <img class="img-responsive login-user-img" :src="user.userUrl" >
+                <img class="img-responsive login-user-img" :src="user.user_photo_url" >
             </div>
         </div>
 

@@ -23,14 +23,13 @@
          async initData(){
              const res = await userInfo();
              if(res.status == 1){
+                 console.log(res);
                  localStorage.setItem('loginStorage',true);
                  this.loginStatus ='true';
-                 let user = {
-                     logStatus:true,
-                     userName:res.data.user_name,
-                     userUrl:res.data.user_url,
-                 };
-                 this.$store.dispatch('changeStatus',user);
+                 res.data.user.logStatus = true;
+                 this.$store.dispatch('changeStatus',res.data.user);
+                 this.$store.dispatch('changeUserLike',res.data.userArticle);
+                 this.$store.dispatch('changeUserCate',res.data.userCate);
              }else{
                  localStorage.setItem('loginStorage',false);
                  this.loginStatus ='false';
@@ -38,6 +37,8 @@
                      logStatus:false,
                  };
                  this.$store.dispatch('changeStatus',user);
+                 this.$store.dispatch('changeUserLike',[]);
+                 this.$store.dispatch('changeUserCate',[]);
              }
 
              let _this = this;

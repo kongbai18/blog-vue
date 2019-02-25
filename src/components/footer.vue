@@ -35,7 +35,7 @@
 
 .footer-info{
     font-size: 16px;
-    line-height: 40px;
+    line-height: 35px;
     background: #f8f8f8;
     border-top: 1px solid #e7e7e7;
     position: absolute;

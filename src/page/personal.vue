@@ -84,7 +84,7 @@
                         <div style="font-size: 12px;fongt-weight:300;margin-top: 5px;color: white">暂无数据</div>
                     </div>
 
-                    <div class="panel panel-default" v-for="item in articleData">
+                    <div class="panel panel-default" v-for="(item,index) in articleData">
                         <div class="panel-body">
                             <div class="head-img" style="display: inline-block;overflow:hidden;width: 60px;height:70px;padding-top:10px;">
                                 <img style="width: 50px;height: 50px" :src="item.user_photo_url" alt="" class="img-circle">
@@ -99,13 +99,27 @@
                                     {{item.article_content | htmlToStr}}
                                 </p>
                             </router-link>
+                            <div v-if="item.article_pic" style="margin-left: 60px" class="hidden-xs">
+                                <div style="width: 400px;">
+                                    <div v-for="item in strSplit(item.article_pic)" style="width: 110px;height: 110px;margin:2px;display: inline-block;overflow: hidden">
+                                        <img :src="item" style="height:110px;width: 110px;vertical-align:middle;" alt="" class="img-responsive center-block">
+                                    </div>
+                                </div>
+                            </div>
+                            <div v-if="item.article_pic" style="margin-left: 60px" class="visible-xs">
+                                <div style="width: 200px;">
+                                    <div v-for="item in strSplit(item.article_pic)" style="width: 60px;height: 60px;margin:2px;display: inline-block;overflow: hidden">
+                                        <img :src="item" style="height:60px;width: 60px;vertical-align:middle;" alt="" class="img-responsive center-block">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div style="height: 40px;margin-left: 60px">
                             <ul class="nav nav-pills">
-                                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-heart-empty"></span> 1</a></li>
-                                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span>0</a></li>
-                                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-share" aria-hidden="true"></span>0</a></li>
-                                <li role="presentation"><a href="#"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>0</a></li>
+                                <li v-if="!isInArray(item.article_id,userLike)" role="presentation"><a href="javascript:;" @click="like(index,item.article_id)"><span class="glyphicon glyphicon-heart-empty"></span> {{item.article_like_count}}</a></li>
+                                <li v-if="isInArray(item.article_id,userLike)" role="presentation"><a href="javascript:;" @click="dislike(index,item.article_id)"><span class="glyphicon glyphicon-heart"></span> {{item.article_like_count}}</a></li>
+                                <li role="presentation"><a href="javascript:;"><span class="glyphicon glyphicon-unchecked" aria-hidden="true"></span> {{item.article_comment_count}}</a></li>
+                                <li role="presentation"><a href="javascript:;"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> {{item.article_view_count}}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -125,7 +139,7 @@
 <script>
     import topNav from '@/components/topNav'
     import footerView from '@/components/footer'
-    import {personalArticle} from "../api/getData";
+    import {personalArticle,like,dislike} from "../api/getData";
 
     export default {
         data(){
@@ -142,6 +156,15 @@
         components: {
             topNav,
             footerView,
+        },
+
+        computed: {
+            user () {
+                return this.$store.state.user;
+            },
+            userLike () {
+                return this.$store.state.userLike;
+            },
         },
 
         mounted(){
@@ -163,6 +186,77 @@
                 if(article.status == 1){
                     this.articleData = this.articleData.concat(article.data.article);
                     this.pageData = article.data.pageData;
+                }
+            },
+
+            strSplit(value){
+                return value.split(",").splice(0,8);
+            },
+
+            async like(index,articleId){
+                if(localStorage.getItem('loginStorage') == 'true'){
+                    const res = await like({article_id:articleId});
+                    if(res.status == 1){
+                        //改变用点赞数组
+                        this.userLike.push(articleId);
+                        this.$store.dispatch('changeUserLike',this.userLike);
+                        //改变文章点赞数
+                        this.articleData[index].article_like_count = this.articleData[index].article_like_count+1;
+                        //改变用户点赞数
+                        this.user.like_count = this.user.like_count + 1;
+                        this.$store.dispatch('changeStatus',this.user);
+
+                        this.$store.dispatch('changePonit',{showStatus:true,pointMsg:'点赞成功！'});
+                        let _this = this;
+                        window.setTimeout(function(){
+                            _this.$store.dispatch('changePonit',{showStatus:false,pointMsg:'点赞成功！'});
+                        },2000);
+                    }
+                }else{
+                    this.$store.dispatch('changePonit',{showStatus:true,pointMsg:'请先登陆！'});
+                    let _this = this;
+                    window.setTimeout(function(){
+                        _this.$store.dispatch('changePonit',{showStatus:false,pointMsg:'请先登陆！'});
+                    },2000);
+                }
+            },
+
+            async dislike(index,articleId){
+                if(localStorage.getItem('loginStorage')){
+                    const res = await dislike({article_id:articleId});
+                    if(res.status == 1){
+                        //改变用点赞数组
+                        let key = this.getArrayKey(articleId,this.userLike);
+                        this.userLike.splice(key,1);
+                        this.$store.dispatch('changeUserLike',this.userLike);
+                        //改变文章点赞数
+                        this.articleData[index].article_like_count = this.articleData[index].article_like_count-1;
+                        //改变用户点赞数
+                        this.user.like_count = this.user.like_count - 1;
+                        this.$store.dispatch('changeStatus',this.user);
+
+                        this.$store.dispatch('changePonit',{showStatus:true,pointMsg:'取消点赞成功！'});
+                        let _this = this;
+                        window.setTimeout(function(){
+                            _this.$store.dispatch('changePonit',{showStatus:false,pointMsg:'取消点赞成功！'});
+                        },2000);
+                    }
+                }
+            },
+
+            getArrayKey(val,arr){
+                for(var i = 0;i<arr.length;i++){
+                    if(val == arr[i]){
+                        return i;
+                    }
+                }
+            },
+
+            isInArray(arr1,arr2){
+                if(arr2.indexOf(arr1) == -1){
+                    return false;
+                }else {
+                    return true;
                 }
             },
         }
